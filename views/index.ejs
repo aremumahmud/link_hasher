@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Hasher</title>
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Optional CSS -->
+</head>
+
+<body>
+    <h1>URL Hasher</h1>
+    <form action="/hash" method="POST">
+        <label for="url">Enter a URL:</label>
+        <input type="url" id="url" name="url" placeholder="https://example.com" required>
+        <button type="submit">Generate Hashed URL</button>
+    </form>
+
+    <% if (hashedUrl) { %>
+        <p class="hp">Hashed URL:
+            <a href="<%= hashedUrl %>">
+                <%= hashedUrl %>
+            </a>
+        </p>
+        <% } %>
+</body>
+
+</html>

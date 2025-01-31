@@ -4,6 +4,10 @@ const crypto = require("crypto");
 const app = express();
 const port = 3000;
 
+// URL Model
+const Url = require("./models/Url");
+const connectWithRetry = require("./db");
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); // Serve static files (CSS, JS)
@@ -12,9 +16,7 @@ app.set("view engine", "ejs");
 // MongoDB Connection
 connectWithRetry()
 
-// URL Model
-const Url = require("./models/Url");
-const connectWithRetry = require("./db");
+
 
 // Generate a unique hash for a URL
 function generateHash(url) {

@@ -10,13 +10,11 @@ app.use(express.static("public")); // Serve static files (CSS, JS)
 app.set("view engine", "ejs");
 
 // MongoDB Connection
-mongoose.connect("mongodb://mongo:27017/url-hasher", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+connectWithRetry()
 
 // URL Model
 const Url = require("./models/Url");
+const connectWithRetry = require("./db");
 
 // Generate a unique hash for a URL
 function generateHash(url) {
@@ -31,6 +29,36 @@ function generateHash(url) {
 // Homepage route
 app.get("/", (req, res) => {
     res.render("index", { hashedUrl: null });
+});
+
+app.get("/health", (req, res) => {
+    const mongooseState = mongoose.connection.readyState;
+
+    let status;
+    switch (mongooseState) {
+        case 0:
+            status = "Disconnected";
+            break;
+        case 1:
+            status = "Connected";
+            break;
+        case 2:
+            status = "Connecting";
+            break;
+        case 3:
+            status = "Disconnecting";
+            break;
+        default:
+            status = "Unknown";
+    }
+
+    res.json({
+        status: "OK",
+        mongoose: {
+            state: mongooseState,
+            status: status,
+        },
+    });
 });
 
 // Handle URL submission

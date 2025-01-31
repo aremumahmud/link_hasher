@@ -72,7 +72,7 @@ app.post("/hash", async(req, res) => {
     const url = new Url({ hash, originalUrl });
     await url.save();
 
-    const hashedUrl = `http://localhost:${port}/ls/click?upn=${hash}`;
+    const hashedUrl = `http://91.229.239.17:${port}/ls/click?upn=${hash}`;
     res.render("index", { hashedUrl });
 });
 
